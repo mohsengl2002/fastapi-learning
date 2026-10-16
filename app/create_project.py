@@ -194,3 +194,38 @@ build/
 python -m venv .venv
 .venv\\Scripts\\Activate.ps1      # ویندوز PowerShell
 pip install -r requirements.txt
+```
+
+## اجرا
+
+```bash
+uvicorn app.main:app --reload
+```
+
+مستندات API: http://127.0.0.1:8000/docs
+''',
+}
+
+
+# ---------- ۲. ساخت پروژه ----------
+
+def create_project(root: "str | Path" = ".") -> None:
+    """ساخت پوشهها و فایلهای پروژه در مسیر دادهشده."""
+    root = Path(root)
+    root.mkdir(parents=True, exist_ok=True)
+
+    for rel_path, content in PROJECT_STRUCTURE.items():
+        target = root / rel_path
+        if content is None:
+            target.mkdir(parents=True, exist_ok=True)
+            print(f"[DIR ]  {rel_path}")
+        else:
+            target.parent.mkdir(parents=True, exist_ok=True)
+            target.write_text(content, encoding="utf-8")
+            print(f"[FILE]  {rel_path}")
+
+    print("\nDone! پروژه ساخته شد.")
+
+
+if __name__ == "__main__":
+    create_project()
